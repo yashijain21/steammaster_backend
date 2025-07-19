@@ -4,7 +4,8 @@ const Service = require('../models/Service');
 
 // ✅ Create Service
 router.post('/', async (req, res) => {
-  const { name, description, price, durationMinutes, category } = req.body;
+  const { name, description, price, durationMinutes, category, image } = req.body;
+
   if (!name || !category) {
     return res.status(400).json({ message: 'Service name and category required.' });
   }
@@ -16,8 +17,10 @@ router.post('/', async (req, res) => {
       price,
       durationMinutes,
       category,
-      isActive: true, // ✅ Include isActive so it shows in GET requests
+      image, // ✅ Save image URL
+      isActive: true,
     }).save();
+
     res.status(201).json(saved);
   } catch (e) {
     console.error('❌ Error creating service:', e.message);
@@ -55,7 +58,7 @@ router.put('/:id', async (req, res) => {
   try {
     const upd = await Service.findByIdAndUpdate(
       req.params.id,
-      { ...req.body, updatedAt: Date.now() },
+      { ...req.body, updatedAt: Date.now() }, // Includes `image` from body
       { new: true, runValidators: true }
     );
     if (!upd) return res.status(404).json({ message: 'Service not found.' });

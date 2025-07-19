@@ -6,6 +6,7 @@ const cors = require('cors');
 
 const service = require('./routes/services');
 const appointment = require('./routes/appointment');
+const category =require('./routes/category')
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -23,6 +24,7 @@ mongoose.connect(MONGODB_URI)
 // Routes
 app.use('/api/services', service);
 app.use('/api/appointments', appointment);
+app.use ('/api/categories',category)
 
 // Start server
 app.listen(PORT, () => {
