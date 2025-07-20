@@ -86,8 +86,10 @@ router.delete('/:id', async (req, res) => {
 // ✅ Get Services by Category (Subcategory) ID
 router.get('/category/:id', async (req, res) => {
   try {
+    const categoryId = new mongoose.Types.ObjectId(req.params.id); // ✅ Convert to ObjectId
+
     const services = await Service.find({
-      category: req.params.id,
+      category: categoryId,
       isActive: true
     }).sort({ name: 1 });
 
@@ -97,5 +99,6 @@ router.get('/category/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching services.', error: error.message });
   }
 });
+
 
 module.exports = router;
