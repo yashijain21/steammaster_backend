@@ -30,15 +30,17 @@ router.post('/', async (req, res) => {
 });
 
 // ✅ Get All Categories (with children populated)
+// ✅ Get ALL categories (including all parents and children)
 router.get('/', async (req, res) => {
   try {
-    const categories = await Category.find({ parent: null }).populate('children').exec();
+    const categories = await Category.find().populate('children').exec(); // ← remove `{ parent: null }`
     res.json(categories);
   } catch (e) {
     console.error('❌ Fetch error:', e.message);
     res.status(500).json({ message: 'Error fetching categories.', error: e.message });
   }
 });
+
 
 // ✅ Get Category by ID
 router.get('/:id', async (req, res) => {
