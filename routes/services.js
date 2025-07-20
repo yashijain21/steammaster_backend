@@ -83,5 +83,19 @@ router.delete('/:id', async (req, res) => {
     res.status(500).json({ message: 'Error deleting service.', error: e.message });
   }
 });
+// ✅ Get Services by Category (Subcategory) ID
+router.get('/category/:id', async (req, res) => {
+  try {
+    const services = await Service.find({
+      category: req.params.id,
+      isActive: true
+    }).sort({ name: 1 });
+
+    res.json(services);
+  } catch (error) {
+    console.error('❌ Error fetching services by category:', error.message);
+    res.status(500).json({ message: 'Error fetching services.', error: error.message });
+  }
+});
 
 module.exports = router;
