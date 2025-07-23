@@ -4,8 +4,8 @@ const router = express.Router();
 const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 
-const sendMail = require('../utils/sendMail');
-const generateInvoice = require('../utils/generateInvoice');
+const sendMail = require('../utils/sendmail');
+const generateInvoice = require('../utils/generatemail');
 
 // Create Appointment
 router.post('/', async (req, res) => {
