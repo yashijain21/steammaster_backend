@@ -4,31 +4,52 @@ const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 
 // Create Appointment
+// Create Appointment
 router.post('/', async (req, res) => {
-  const { serviceId, appointmentDate, appointmentTime, customerName, customerEmail, customerPhone, notes } = req.body;
-  if (!serviceId || !appointmentDate || !appointmentTime || !customerName || !customerEmail)
+  const {
+    services,
+    appointmentDate,
+    appointmentTime,
+    customerName,
+    customerEmail,
+    customerPhone,
+    notes,
+  } = req.body;
+
+  if (!services?.length || !appointmentDate || !appointmentTime || !customerName || !customerEmail) {
     return res.status(400).json({ message: 'Required fields missing.' });
+  }
 
   try {
-    const svc = await Service.findById(serviceId);
-    if (!svc) return res.status(404).json({ message: 'Service not found.' });
+    const foundServices = await Service.find({ _id: { $in: services } });
 
-    const saved = await new Appointment({
-      serviceId,
-      serviceName: svc.name,
+    if (!foundServices.length) {
+      return res.status(404).json({ message: 'No valid services found.' });
+    }
+
+    const serviceNames = foundServices.map((s) => s.name);
+    const totalPrice = foundServices.reduce((sum, s) => sum + (s.price || 0), 0);
+
+    const newAppointment = new Appointment({
+      services,
+      serviceNames,
+      totalPrice,
       appointmentDate: new Date(appointmentDate),
       appointmentTime,
       customerName,
       customerEmail,
       customerPhone,
-      notes
-    }).save();
+      notes,
+    });
 
+    const saved = await newAppointment.save();
     res.status(201).json(saved);
   } catch (e) {
+    console.error(e);
     res.status(500).json({ message: 'Error booking appointment.' });
   }
 });
+
 
 // Get All Appointments
 router.get('/', async (req, res) => {
