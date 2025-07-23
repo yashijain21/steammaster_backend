@@ -4,8 +4,8 @@ const router = express.Router();
 const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 
-const sendMail = require('../utils/sendmail');
-const generateInvoice = require('../utils/generatemail');
+const sendMail = require('../utils/sendMail');
+const generateInvoice = require('../utils/generateInvoice');
 
 // Create Appointment
 router.post('/', async (req, res) => {
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
 
     // Send admin notification
     await sendMail({
-      to: 'admin@example.com', // replace with actual admin email
+      to: 'steammaster973@gmail.com', // replace with actual admin email
       subject: 'New Booking Received',
       html: `
         <h3>New Appointment</h3>
