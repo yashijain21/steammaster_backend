@@ -4,7 +4,7 @@ const router = express.Router();
 const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 
-const sendMail = require('../utils/sendMail');
+const sendMail = require('../utils/sendmail');
 const generateInvoice = require('../utils/generateInvoice');
 
 // Create Appointment
