@@ -1,9 +1,12 @@
 const express = require('express');
 const router = express.Router();
+
 const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
 
-// Create Appointment
+const sendMail = require('../utils/sendMail');
+const generateInvoice = require('../utils/generateInvoice');
+
 // Create Appointment
 router.post('/', async (req, res) => {
   const {
@@ -16,7 +19,13 @@ router.post('/', async (req, res) => {
     notes,
   } = req.body;
 
-  if (!services?.length || !appointmentDate || !appointmentTime || !customerName || !customerEmail) {
+  if (
+    !services?.length ||
+    !appointmentDate ||
+    !appointmentTime ||
+    !customerName ||
+    !customerEmail
+  ) {
     return res.status(400).json({ message: 'Required fields missing.' });
   }
 
@@ -43,9 +52,48 @@ router.post('/', async (req, res) => {
     });
 
     const saved = await newAppointment.save();
-    res.status(201).json(saved);
+
+    // Generate invoice PDF
+    const invoiceBuffer = await generateInvoice(saved, foundServices);
+
+    // Send admin notification
+    await sendMail({
+      to: 'admin@example.com', // replace with actual admin email
+      subject: 'New Booking Received',
+      html: `
+        <h3>New Appointment</h3>
+        <p><strong>Name:</strong> ${customerName}</p>
+        <p><strong>Email:</strong> ${customerEmail}</p>
+        <p><strong>Phone:</strong> ${customerPhone}</p>
+        <p><strong>Date:</strong> ${appointmentDate} ${appointmentTime}</p>
+        <p><strong>Total:</strong> ${totalPrice} kr</p>
+        <p><strong>Services:</strong> ${serviceNames.join(', ')}</p>
+      `,
+    });
+
+    // Send user confirmation + invoice
+    await sendMail({
+      to: customerEmail,
+      subject: 'Booking Confirmation – Your Appointment is Confirmed!',
+      html: `
+        <h3>Hi ${customerName},</h3>
+        <p>Thank you for booking with us.</p>
+        <p><strong>Date:</strong> ${appointmentDate} ${appointmentTime}</p>
+        <p><strong>Total:</strong> ${totalPrice} kr</p>
+        <p><strong>Services:</strong> ${serviceNames.join(', ')}</p>
+        <p>Please find your invoice attached.</p>
+      `,
+      attachments: [
+        {
+          filename: 'invoice.pdf',
+          content: invoiceBuffer,
+        },
+      ],
+    });
+
+    res.status(201).json({ message: 'Booking successful and emails sent!', data: saved });
   } catch (e) {
-    console.error(e);
+    console.error('Booking error:', e);
     res.status(500).json({ message: 'Error booking appointment.' });
   }
 });
@@ -79,7 +127,9 @@ router.put('/:id', async (req, res) => {
       req.params.id,
       {
         ...req.body,
-        appointmentDate: req.body.appointmentDate ? new Date(req.body.appointmentDate) : undefined
+        appointmentDate: req.body.appointmentDate
+          ? new Date(req.body.appointmentDate)
+          : undefined,
       },
       { new: true, runValidators: true }
     );
