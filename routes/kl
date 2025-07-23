@@ -1,0 +1,559 @@
+[{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c1d"
+
+  },
+
+  "name": "Barnsäng",
+
+  "description": "Ångrengöring av barnsäng.",
+
+  "price": 300,
+
+  "durationMinutes": 30,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://images.ctfassets.net/mjtsjk88qv6a/7IdMYhETXMaNeH0luk8buE/6b2e4baa7965f558cc0a7310f11760bd/steps-vacuum-baby-mattress.jpg?fm=webp&w=3840&q=75",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c1e"
+
+  },
+
+  "name": "Enkelsäng",
+
+  "description": "Ångrengöring av enkelsäng.",
+
+  "price": 600,
+
+  "durationMinutes": 40,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://static.vecteezy.com/system/resources/thumbnails/050/502/837/small_2x/a-man-is-using-a-steam-cleaner-to-clean-the-mattress-photo.jpeg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c1f"
+
+  },
+
+  "name": "Dubbelsäng",
+
+  "description": "Ångrengöring av dubbelsäng (120, 140, 160 och 180 cm).",
+
+  "price": 900,
+
+  "durationMinutes": 55,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://go.dodobooker.com/wp-content/uploads/2024/04/Single-Bed-Mattress-1-.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c20"
+
+  },
+
+  "name": "Kingsize-säng",
+
+  "description": "Ångrengöring av kingsize-säng.",
+
+  "price": 1100,
+
+  "durationMinutes": 60,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://cdn11.bigcommerce.com/s-a88f1/images/stencil/1280x1280/products/257/1494/kingbed__38360.1555519372.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c21"
+
+  },
+
+  "name": "Dubbelsängs madrass",
+
+  "description": "Ångrengöring av madrass till dubbelsäng (120, 140, 160 och 180 cm).",
+
+  "price": 600,
+
+  "durationMinutes": 45,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://cdn.thewirecutter.com/wp-content/media/2023/06/mattress-top-2048px-3540.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c22"
+
+  },
+
+  "name": "Dubbelsängs bäddmadrass",
+
+  "description": "Ångrengöring av bäddmadrass till dubbelsäng.",
+
+  "price": 500,
+
+  "durationMinutes": 30,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://img.freepik.com/premium-photo/cleaner-is-washing-off-sofa-cushions-with-extractor-drying-soft-upholstered-headboard-bed-dry-cleaning-home-furniture-with-extractor-using-dryer-remove-wet-spots-bed_255847-12847.jpg?w=360",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c23"
+
+  },
+
+  "name": "Dubbelsängs gavel",
+
+  "description": "Ångrengöring av gavel till dubbelsäng.",
+
+  "price": 400,
+
+  "durationMinutes": 25,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://www.thespruce.com/thmb/Oo9zzUnFyFRNEylF6YgW3UOYrrg=/3600x2400/filters:no_upscale():max_bytes(150000):strip_icc()/types-of-headboards-5184421-hero-4bc51bbf63f14873b937e3f6a7e68eb8.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c24"
+
+  },
+
+  "name": "Enkelsäng madrass",
+
+  "description": "Ångrengöring av madrass till enkelsäng.",
+
+  "price": 400,
+
+  "durationMinutes": 30,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://cdn.thewirecutter.com/wp-content/media/2023/05/mattresskids-2048px-7324.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c25"
+
+  },
+
+  "name": "Enkelsäng bäddmadrass",
+
+  "description": "Ångrengöring av bäddmadrass till enkelsäng.",
+
+  "price": 350,
+
+  "durationMinutes": 25,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://images.unsplash.com/photo-1617093726443-1344b26c54cf",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c26"
+
+  },
+
+  "name": "Enkelsänggavel",
+
+  "description": "Ångrengöring av sänggavel till enkelsäng.",
+
+  "price": 300,
+
+  "durationMinutes": 20,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6e"
+
+  },
+
+  "image": "https://assets.pbimgs.com/pbimgs/rk/images/dp/wcm/202248/0626/alexa-upholstered-headboard-o.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c27"
+
+  },
+
+  "name": "2-sits soffa",
+
+  "description": "Ångrengöring av 2-sits soffa.",
+
+  "price": 600,
+
+  "durationMinutes": 45,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://cdn.mos.cms.futurecdn.net/SCpKk2VV48oKKFE6UnFAW4.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c28"
+
+  },
+
+  "name": "3-sits soffa",
+
+  "description": "Ångrengöring av 3-sits soffa.",
+
+  "price": 700,
+
+  "durationMinutes": 50,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://www.ikea.com/ca/en/images/products/klippan-loveseat-vissle-gray__0727208_pe735927_s5.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c29"
+
+  },
+
+  "name": "4-sits soffa",
+
+  "description": "Ångrengöring av 4-sits soffa.",
+
+  "price": 800,
+
+  "durationMinutes": 55,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://media.4rgos.it/i/Argos/9554642_R_Z001A?w=750&h=440&qlt=70",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2a"
+
+  },
+
+  "name": "5-sits soffa",
+
+  "description": "Ångrengöring av 5-sits soffa.",
+
+  "price": 900,
+
+  "durationMinutes": 60,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://i.pinimg.com/originals/44/33/8f/44338f70c749dc9f9f76d91dd6f2f4e4.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2b"
+
+  },
+
+  "name": "6-sits soffa",
+
+  "description": "Ångrengöring av 6-sits soffa.",
+
+  "price": 1000,
+
+  "durationMinutes": 65,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://www.ulcdn.net/images/products/344413/original/Webp.net-resizeimage_(5).jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2c"
+
+  },
+
+  "name": "7-sits soffa",
+
+  "description": "Ångrengöring av 7-sits soffa.",
+
+  "price": 1100,
+
+  "durationMinutes": 70,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://sc04.alicdn.com/kf/H122383df81d344759fc0f3c32c5cb223u.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2d"
+
+  },
+
+  "name": "3+2+1 soffgrupp",
+
+  "description": "Ångrengöring av komplett 3+2+1 soffgrupp.",
+
+  "price": 1300,
+
+  "durationMinutes": 75,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://www.zmsofagallery.com/wp-content/uploads/2021/01/Classic-3-2-1-sofa-set-in-delhi.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2e"
+
+  },
+
+  "name": "Fåtölj",
+
+  "description": "Ångrengöring av fåtölj.",
+
+  "price": 400,
+
+  "durationMinutes": 25,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://cdn.thewirecutter.com/wp-content/media/2022/03/armchairs-2048px-7031.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c2f"
+
+  },
+
+  "name": "Stol",
+
+  "description": "Ångrengöring av stol.",
+
+  "price": 300,
+
+  "durationMinutes": 20,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://www.ikea.com/us/en/images/products/teodores-chair-white__0736380_pe740288_s5.jpg",
+
+  "isActive": true
+
+},
+
+{
+
+  "_id": {
+
+    "$oid": "687d27e497902897edd49c30"
+
+  },
+
+  "name": "Pall",
+
+  "description": "Ångrengöring av pall.",
+
+  "price": 250,
+
+  "durationMinutes": 15,
+
+  "category": {
+
+    "$oid": "687b71ba252221dd770c3c6f"
+
+  },
+
+  "image": "https://www.ikea.com/us/en/images/products/marius-stool-black__0729909_pe737502_s5.jpg",
+
+  "isActive": true
+
+}] 
