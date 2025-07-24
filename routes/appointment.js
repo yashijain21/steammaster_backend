@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const path = require('path'); // <-- added
 
 const Appointment = require('../models/Appointment');
 const Service = require('../models/Service');
@@ -19,6 +20,8 @@ router.post('/', async (req, res) => {
     notes,
   } = req.body;
 
+  console.log("📥 Received booking data:", req.body);
+
   if (
     !services?.length ||
     !appointmentDate ||
@@ -26,13 +29,16 @@ router.post('/', async (req, res) => {
     !customerName ||
     !customerEmail
   ) {
+    console.warn("⚠️ Missing required fields.");
     return res.status(400).json({ message: 'Required fields missing.' });
   }
 
   try {
+    console.log("🔍 Finding selected services...");
     const foundServices = await Service.find({ _id: { $in: services } });
 
     if (!foundServices.length) {
+      console.warn("❌ No valid services found.");
       return res.status(404).json({ message: 'No valid services found.' });
     }
 
@@ -51,14 +57,15 @@ router.post('/', async (req, res) => {
       notes,
     });
 
+    console.log("💾 Saving appointment to DB...");
     const saved = await newAppointment.save();
 
-    // Generate invoice PDF
+    console.log("🧾 Generating invoice...");
     const invoiceBuffer = await generateInvoice(saved, foundServices);
 
-    // Send admin notification
+    console.log("📤 Sending admin email...");
     await sendMail({
-      to: 'steammaster973@gmail.com', // replace with actual admin email
+      to: 'steammaster973@gmail.com',
       subject: 'New Booking Received',
       html: `
         <h3>New Appointment</h3>
@@ -71,60 +78,62 @@ router.post('/', async (req, res) => {
       `,
     });
 
-   await sendMail({
-  to: customerEmail,
-  subject: 'Thanks for Your Booking – Invoice Attached',
-  html: `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #eee; background-color: #ffffff;">
-      <div style="text-align: center;">
-        <img src="cid:logo" alt="SteamMaster Logo" style="width: 120px; margin-bottom: 20px;" />
-        <h2 style="color: #333;">Thanks for your booking, ${customerName}!</h2>
-        <p style="font-size: 15px; color: #666;">We've attached your invoice to this email.</p>
-      </div>
+    console.log("📨 Sending confirmation email to user...");
+    await sendMail({
+      to: customerEmail,
+      subject: 'Thanks for Your Booking – Invoice Attached',
+      html: `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #eee; background-color: #ffffff;">
+          <div style="text-align: center;">
+            <img src="cid:logo" alt="SteamMaster Logo" style="width: 120px; margin-bottom: 20px;" />
+            <h2 style="color: #333;">Thanks for your booking, ${customerName}!</h2>
+            <p style="font-size: 15px; color: #666;">We've attached your invoice to this email.</p>
+          </div>
 
-      <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
+          <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
 
-      <div style="text-align: left; font-size: 14px; color: #333;">
-        <p><strong>Appointment Date:</strong> ${appointmentDate} at ${appointmentTime}</p>
-        <p><strong>Services:</strong> ${serviceNames.join(', ')}</p>
-        <p><strong>Total:</strong> ${totalPrice} kr</p>
-        <p><strong>Invoice ID:</strong> ${saved._id}</p>
-      </div>
+          <div style="text-align: left; font-size: 14px; color: #333;">
+            <p><strong>Appointment Date:</strong> ${appointmentDate} at ${appointmentTime}</p>
+            <p><strong>Services:</strong> ${serviceNames.join(', ')}</p>
+            <p><strong>Total:</strong> ${totalPrice} kr</p>
+            <p><strong>Invoice ID:</strong> ${saved._id}</p>
+          </div>
 
-      <div style="margin-top: 40px; text-align: center;">
-        <a href="#" style="background-color: #8DC63F; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">Download Invoice</a>
-        <p style="margin-top: 20px; font-size: 12px; color: #888;">
-          If you have any questions or feedback, just <a href="mailto:steammaster973@gmail.com" style="color: #8DC63F; text-decoration: none;">reply to this email</a>.
-        </p>
-      </div>
+          <div style="margin-top: 40px; text-align: center;">
+            <a href="#" style="background-color: #8DC63F; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">Download Invoice</a>
+            <p style="margin-top: 20px; font-size: 12px; color: #888;">
+              If you have any questions or feedback, just <a href="mailto:steammaster973@gmail.com" style="color: #8DC63F; text-decoration: none;">reply to this email</a>.
+            </p>
+          </div>
 
-      <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #999;">
-        SteamMaster, Bleckvarugatan 3, 417 07 Göteborg, Sweden<br />
-        Phone: +46 76 556 67 75
-      </div>
-    </div>
-  `,
-  attachments: [
-    {
-      filename: 'invoice.pdf',
-      content: invoiceBuffer,
-    },
-    {
-      filename: 'logo.png',
-      path: path.join(__dirname, '../logo.png'), // adjust path if needed
-      cid: 'logo', // referenced in <img src="cid:logo" />
-    }
-  ],
-});
+          <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #999;">
+            SteamMaster, Bleckvarugatan 3, 417 07 Göteborg, Sweden<br />
+            Phone: +46 76 556 67 75
+          </div>
+        </div>
+      `,
+      attachments: [
+        {
+          filename: 'invoice.pdf',
+          content: invoiceBuffer,
+        },
+        {
+          filename: 'logo.png',
+          path: path.join(__dirname, '../logo.png'), // adjust if needed
+          cid: 'logo',
+        }
+      ],
+    });
 
-
+    console.log("✅ Booking complete. Returning success response.");
     res.status(201).json({ message: 'Booking successful and emails sent!', data: saved });
+
   } catch (e) {
-    console.error('Booking error:', e);
-    res.status(500).json({ message: 'Error booking appointment.' });
+    console.error('❌ Booking error:', e.message);
+    console.error('🪵 Stack Trace:', e.stack);
+    res.status(500).json({ message: 'Error booking appointment.', error: e.message });
   }
 });
-
 
 // Get All Appointments
 router.get('/', async (req, res) => {
@@ -132,7 +141,7 @@ router.get('/', async (req, res) => {
     const list = await Appointment.find().sort({ appointmentDate: 1, appointmentTime: 1 });
     res.json(list);
   } catch (e) {
-    res.status(500).json({ message: 'Error fetching appointments.' });
+    res.status(500).json({ message: 'Error fetching appointments.', error: e.message });
   }
 });
 
@@ -143,7 +152,7 @@ router.get('/:id', async (req, res) => {
     if (!appt) return res.status(404).json({ message: 'Appointment not found.' });
     res.json(appt);
   } catch (e) {
-    res.status(500).json({ message: 'Error fetching appointment.' });
+    res.status(500).json({ message: 'Error fetching appointment.', error: e.message });
   }
 });
 
@@ -163,7 +172,7 @@ router.put('/:id', async (req, res) => {
     if (!upd) return res.status(404).json({ message: 'Appointment not found.' });
     res.json(upd);
   } catch (e) {
-    res.status(500).json({ message: 'Error updating appointment.' });
+    res.status(500).json({ message: 'Error updating appointment.', error: e.message });
   }
 });
 
@@ -174,7 +183,7 @@ router.delete('/:id', async (req, res) => {
     if (!del) return res.status(404).json({ message: 'Appointment not found.' });
     res.json({ message: 'Appointment deleted.' });
   } catch (e) {
-    res.status(500).json({ message: 'Error deleting appointment.' });
+    res.status(500).json({ message: 'Error deleting appointment.', error: e.message });
   }
 });
 
