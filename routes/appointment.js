@@ -111,7 +111,7 @@ router.post('/', async (req, res) => {
     },
     {
       filename: 'logo.png',
-      path: path.join(__dirname, 'logo.png'), // adjust path if needed
+      path: path.join(__dirname, '../logo.png'), // adjust path if needed
       cid: 'logo', // referenced in <img src="cid:logo" />
     }
   ],

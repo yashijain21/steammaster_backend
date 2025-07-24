@@ -18,7 +18,7 @@ const generateInvoice = (appointment, services) => {
     const darkGray = "#eeeeee";
 
     // === Logo ===
-    const logoPath = path.join(__dirname, "logo.png"); // Make sure the logo exists at this path
+    const logoPath = path.join(__dirname, "../logo.png"); // Make sure the logo exists at this path
     try {
       doc.image(logoPath, 40, 40, { width: 60 });
     } catch (err) {
