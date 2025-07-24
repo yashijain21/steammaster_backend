@@ -71,25 +71,52 @@ router.post('/', async (req, res) => {
       `,
     });
 
-    // Send user confirmation + invoice
-    await sendMail({
-      to: customerEmail,
-      subject: 'Booking Confirmation – Your Appointment is Confirmed!',
-      html: `
-        <h3>Hi ${customerName},</h3>
-        <p>Thank you for booking with us.</p>
-        <p><strong>Date:</strong> ${appointmentDate} ${appointmentTime}</p>
-        <p><strong>Total:</strong> ${totalPrice} kr</p>
+   await sendMail({
+  to: customerEmail,
+  subject: 'Thanks for Your Booking – Invoice Attached',
+  html: `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #eee; background-color: #ffffff;">
+      <div style="text-align: center;">
+        <img src="cid:logo" alt="SteamMaster Logo" style="width: 120px; margin-bottom: 20px;" />
+        <h2 style="color: #333;">Thanks for your booking, ${customerName}!</h2>
+        <p style="font-size: 15px; color: #666;">We've attached your invoice to this email.</p>
+      </div>
+
+      <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;" />
+
+      <div style="text-align: left; font-size: 14px; color: #333;">
+        <p><strong>Appointment Date:</strong> ${appointmentDate} at ${appointmentTime}</p>
         <p><strong>Services:</strong> ${serviceNames.join(', ')}</p>
-        <p>Please find your invoice attached.</p>
-      `,
-      attachments: [
-        {
-          filename: 'invoice.pdf',
-          content: invoiceBuffer,
-        },
-      ],
-    });
+        <p><strong>Total:</strong> ${totalPrice} kr</p>
+        <p><strong>Invoice ID:</strong> ${saved._id}</p>
+      </div>
+
+      <div style="margin-top: 40px; text-align: center;">
+        <a href="#" style="background-color: #8DC63F; color: white; padding: 12px 24px; border-radius: 5px; text-decoration: none; font-weight: bold;">Download Invoice</a>
+        <p style="margin-top: 20px; font-size: 12px; color: #888;">
+          If you have any questions or feedback, just <a href="mailto:steammaster973@gmail.com" style="color: #8DC63F; text-decoration: none;">reply to this email</a>.
+        </p>
+      </div>
+
+      <div style="text-align: center; margin-top: 40px; font-size: 11px; color: #999;">
+        SteamMaster, Bleckvarugatan 3, 417 07 Göteborg, Sweden<br />
+        Phone: +46 76 556 67 75
+      </div>
+    </div>
+  `,
+  attachments: [
+    {
+      filename: 'invoice.pdf',
+      content: invoiceBuffer,
+    },
+    {
+      filename: 'logo.png',
+      path: path.join(__dirname, 'logo.png'), // adjust path if needed
+      cid: 'logo', // referenced in <img src="cid:logo" />
+    }
+  ],
+});
+
 
     res.status(201).json({ message: 'Booking successful and emails sent!', data: saved });
   } catch (e) {
