@@ -18,7 +18,7 @@ const generateInvoice = (appointment, services) => {
     const darkGray = "#eeeeee";
 
     // === Logo ===
-    const logoPath = path.join(__dirname, "../logo.png"); // Make sure the logo exists at this path
+    const logoPath = path.join(__dirname, "../logo.png");
     try {
       doc.image(logoPath, 40, 40, { width: 60 });
     } catch (err) {
@@ -38,20 +38,20 @@ const generateInvoice = (appointment, services) => {
     doc
       .fillColor(green)
       .fontSize(12)
-      .text("Term & Conditions:", 400, 40)
+      .text("Terms & Conditions:", 400, 40)
       .fillColor("black")
       .fontSize(8)
-      .text("Lorem ipsum dolor sit amet,", 400, 60)
-      .text("consectetuer adipiscing elit.", 400, 72)
-      .text("Sed diam nonummy", 400, 84);
+      .text("Please ensure the vehicle or furniture is available at the scheduled time.", 400, 60)
+      .text("A 24-hour notice is required for cancellations or rescheduling.", 400, 72)
+      .text("Payment is due upon completion of service.", 400, 84);
 
     // === Invoice & Balance ===
     doc
       .fillColor("black")
       .fontSize(10)
       .text("INVOICE", 40, 110)
-      .text(`Account No:  ${appointment.accountNo}`, 40, 125)
-      .text(`Invoice No:  ${appointment.invoiceNo}`, 40, 140)
+      .text(`Account No:  ${appointment.accountNo || "-"}`, 40, 125)
+      .text(`Invoice No:  ${appointment.invoiceNo || appointment._id}`, 40, 140)
       .text(`Invoice Date: ${appointment.appointmentDate}`, 40, 155);
 
     doc
@@ -115,7 +115,7 @@ const generateInvoice = (appointment, services) => {
       .text("Payment Info:", 40, currentY + 80)
       .fillColor("black")
       .fontSize(9)
-      .text(`Account No: ${appointment.accountNo}`, 40, currentY + 95)
+      .text(`Account No: ${appointment.accountNo || "-"}`, 40, currentY + 95)
       .text(`Name: ${appointment.customerName}`, 40, currentY + 110)
       .text(`Bank Detail: 0123 456 789`, 40, currentY + 125);
 
@@ -135,7 +135,7 @@ const generateInvoice = (appointment, services) => {
       .text("THANK YOU", 40, currentY + 160)
       .fontSize(7)
       .text(
-        "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has survived not only five centuries.",
+        "Thank you for choosing SteamMaster. We specialize in professional steam cleaning for cars and furniture, delivering unmatched quality and customer satisfaction.",
         40,
         currentY + 175,
         { width: 520 }
