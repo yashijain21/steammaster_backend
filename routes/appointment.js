@@ -8,6 +8,34 @@ const Service = require('../models/Service');
 const sendMail = require('../utils/sendmail');
 const generateInvoice = require('../utils/generateInvoice');
 
+router.patch('/status', async (req, res) => {
+  const { id, status } = req.body;
+
+  const validStatuses = ['attended', 'cancelled', 'no_show'];
+
+  if (!id || !validStatuses.includes(status)) {
+    return res.status(400).json({
+      message: 'Invalid request. Provide valid appointment ID and status (attended, cancelled, no_show).',
+    });
+  }
+
+  try {
+    const appointment = await Appointment.findByIdAndUpdate(
+      id,
+      { status },
+      { new: true }
+    );
+
+    if (!appointment) {
+      return res.status(404).json({ message: 'Appointment not found.' });
+    }
+
+    res.json({ message: `Appointment marked as ${status}.`, data: appointment });
+  } catch (err) {
+    console.error('❌ Error updating appointment status:', err);
+    res.status(500).json({ message: 'Internal server error.' });
+  }
+});
 // Create Appointment
 router.post('/', async (req, res) => {
   const {
