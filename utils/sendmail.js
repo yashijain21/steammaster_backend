@@ -1,35 +1,33 @@
-const nodemailer = require("nodemailer");
+const Brevo = require('@getbrevo/brevo');
 
-const transporter = nodemailer.createTransport({
-  host: process.env.MAIL_HOST,
-  port: parseInt(process.env.MAIL_PORT) || 587, // default 587 if not set
-  secure: process.env.MAIL_PORT === "465", // true for 465, false for 587
-  auth: {
-    user: process.env.MAIL_USER,
-    pass: process.env.MAIL_PASS,
-  },
-  tls: {
-    rejectUnauthorized: false, // allow self-signed certs
-  },
-  connectionTimeout: 15000, // 15 seconds
-  greetingTimeout: 15000,
-  socketTimeout: 15000,
-});
+const apiInstance = new Brevo.TransactionalEmailsApi();
+apiInstance.setApiKey(
+  Brevo.TransactionalEmailsApiApiKeys.apiKey,
+  process.env.BREVO_API_KEY
+);
 
 const sendMail = async ({ to, subject, html, attachments }) => {
   try {
-    const info = await transporter.sendMail({
-      from: `"SteamMaster" <${process.env.MAIL_USER}>`,
-      to,
-      subject,
-      html,
-      attachments,
-    });
-    console.log("✅ Email sent:", info.messageId);
-    return info;
+    const emailData = {
+      sender: { name: "SteamMaster", email: "steammaster973@gmail.com" },
+      to: [{ email: to }],
+      subject: subject,
+      htmlContent: html,
+      attachment: attachments
+        ? attachments.map(file => ({
+            name: file.filename,
+            content: file.content ? file.content.toString('base64') : undefined,
+            url: file.path ? file.path : undefined
+          }))
+        : []
+    };
+
+    const response = await apiInstance.sendTransacEmail(emailData);
+    console.log("✅ Email sent via Brevo API:", response);
+    return response;
   } catch (err) {
-    console.error("⚠️ Sending email failed:", err.message);
-    throw err; // propagate error so your route can handle it
+    console.error("⚠️ Brevo API Error:", err);
+    throw err;
   }
 };
 
